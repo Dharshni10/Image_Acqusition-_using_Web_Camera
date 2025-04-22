@@ -37,89 +37,80 @@ Divide the frame into halves and assign the smaller frame and Rotate the frame u
 
 import cv2
 cap = cv2.VideoCapture(0)
-frame_number = 0
-while frame_number<5:
-    ret,frame = cap.read()
-    cv2.imshow('frame',frame)
-    cv2.imwrite(f"frame_{frame_number}.jpg",frame)
-    frame_number+=1
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+ret, frame = cap.read()
+if ret:
+    cv2.imwrite("Frame.jpg", frame)
 cap.release()
-cv2.destroyAllWindows
 
 ## ii) Display the video
 
 import cv2
+import matplotlib.pyplot as plt
+from IPython.display import clear_output
+import time
+
 cap = cv2.VideoCapture(0)
-while True:
+
+for i in range(50):
     ret, frame = cap.read()
-    cv2.imshow('Video', frame)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if not ret:
         break
+    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    clear_output(wait=True)
+    plt.imshow(frame_rgb)
+    plt.axis('off')
+    plt.show()
+    time.sleep(0.05)
+
 cap.release()
-cv2.destroyAllWindows()
 
 ## iii) Display the video by resizing the window
 
-import numpy as np
-import cv2
-cap=cv2.VideoCapture(0)
-while True:
-    ret,frame=cap.read()
-    width=int(cap.get(3))
-    height=int(cap.get(4))
-    image=np.zeros(frame.shape,np.uint8)
-    smaller_frame=cv2.resize(frame,(0,0),fx=0.5,fy=0.5)
-    image[:height//2, :width//2]=smaller_frame
-    image[height//2:, :width//2]=smaller_frame
-    image[:height//2, width//2:]=smaller_frame
-    image[height//2:, width//2:]=smaller_frame
-    cv2.imshow('PIC',smaller_frame)
-    if cv2.waitKey(1)==ord('q'):
+cap = cv2.VideoCapture(0)
+
+for i in range(50):
+    ret, frame = cap.read()
+    if not ret:
         break
+    resized_frame = cv2.resize(frame, (100, 150))  # Resize to 320x240
+    frame_rgb = cv2.cvtColor(resized_frame, cv2.COLOR_BGR2RGB)
+    clear_output(wait=True)
+    plt.imshow(frame_rgb)
+    plt.axis('off')
+    plt.show()
+    time.sleep(0.05)
+
 cap.release()
-cv2.destroyAllWindows()
 
 ## iv) Rotate and display the video
 
-import cv2
-import numpy as np
 cap = cv2.VideoCapture(0)
-while True:
-    ret, frame = cap.read() 
-    width = int(cap.get(3))
-    height = int(cap.get(4))
-    image = np.zeros(frame.shape, np.uint8) 
-    smaller_frame = cv2.resize(frame, (0,0), fx = 0.5, fy=0.5)
-    image[:height//2, :width//2] = cv2.rotate(smaller_frame,cv2.ROTATE_180)
-    image[height//2:, :width//2] = smaller_frame 
-    image[:height//2, width//2:] = smaller_frame
-    image[height//2:, width//2:] = cv2.rotate(smaller_frame,cv2.ROTATE_180)
-    cv2.imshow('Photo', image)
-    if cv2.waitKey(1)==ord('q'):
+
+for i in range(50):
+    ret, frame = cap.read()
+    if not ret:
         break
+    rotated_frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+    frame_rgb = cv2.cvtColor(rotated_frame, cv2.COLOR_BGR2RGB)
+    clear_output(wait=True)
+    plt.imshow(frame_rgb)
+    plt.axis('off')
+    plt.show()
+    time.sleep(0.05)
+
 cap.release()
-cv2.destroyAllWindows()
 
 ```
 ## Output
 
-### i) Write the frame as JPG image
+### Display the video
+![Output 1](https://github.com/user-attachments/assets/54ad5f3f-d0ca-43a1-b01e-bf6e0077553c)
 
-![frame_4](https://github.com/user-attachments/assets/bb7b8290-263e-47ee-a66f-d5979e6c9f9e)
+### Display the video by resizing the window
+![output 2](https://github.com/user-attachments/assets/61edc8d5-5a42-44f9-9a78-37060e612a0e)
 
-### ii) Display the video
-
-![video](https://github.com/user-attachments/assets/6bf0b9d1-adf4-4a4e-86b7-88ff992fec9d)
-
-### iii) Display the video by resizing the window
-
-![resized](https://github.com/user-attachments/assets/9cebcb5b-9513-470f-aaa6-08ced1e854bf)
-
-### iv) Rotate and display the video
-
-![rotate](https://github.com/user-attachments/assets/af52d15f-81d3-4344-bde1-b37e322eac7d)
+### Rotate and display the video
+![output 3](https://github.com/user-attachments/assets/c49de214-a74f-4172-8b6c-077f584c8198)
 
 ## Result:
 Thus the image is accessed from webcamera and displayed using openCV.
